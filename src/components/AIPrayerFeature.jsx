@@ -348,7 +348,6 @@ export default function AIPrayerFeature() {
                     </div>
                   </div>
                   <div className="text-left border-l border-white/5 pl-2">
-                    <span className="text-on-surface-variant block">المساعد الصوتي</span>
                     <span className="text-[9px] text-[#cfe8de] font-medium block truncate mt-0.5" title={lastSpeechText || activePose.audioAlert}>
                       🎙️ {lastSpeechText || activePose.audioAlert}
                     </span>
