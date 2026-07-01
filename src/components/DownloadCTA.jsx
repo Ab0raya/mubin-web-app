@@ -28,13 +28,16 @@ export default function DownloadCTA() {
             {/* Platforms and badging - Redesigned to show Direct APK only */}
             <div className="flex flex-wrap gap-4 pt-4 justify-end items-center">
               {/* Direct APK Link */}
-              <button
+              <a
                 id="download-apk-btn"
+                href="https://github.com/Ab0raya/mubin-web-app/releases/download/mubin/mubin.apk"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="px-6 py-3.5 rounded-2xl border border-white/10 bg-primary text-on-primary font-bold text-sm hover:scale-105 active:scale-95 transition-all flex items-center gap-2 shadow-lg glow-primary"
               >
                 <span className="material-symbols-outlined font-bold">android</span>
                 تحميل مباشر APK
-              </button>
+              </a>
             </div>
           </div>
 
