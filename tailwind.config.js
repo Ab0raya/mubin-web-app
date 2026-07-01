@@ -74,12 +74,12 @@ export default {
         "container-max": "1200px"
       },
       fontFamily: {
-        "headline-md": ["IBM Plex Sans Arabic"],
-        "headline-lg-mobile": ["IBM Plex Sans Arabic"],
-        "body-md": ["Outfit"],
-        "body-lg": ["Outfit"],
-        "label-sm": ["Outfit"],
-        "headline-lg": ["IBM Plex Sans Arabic"]
+        "headline-md": ["TheYearofHandicrafts", "IBM Plex Sans Arabic"],
+        "headline-lg-mobile": ["TheYearofHandicrafts", "IBM Plex Sans Arabic"],
+        "body-md": ["TheYearofHandicrafts", "Outfit"],
+        "body-lg": ["TheYearofHandicrafts", "Outfit"],
+        "label-sm": ["TheYearofHandicrafts", "Outfit"],
+        "headline-lg": ["TheYearofHandicrafts", "IBM Plex Sans Arabic"]
       },
       fontSize: {
         "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }],

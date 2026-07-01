@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'TheYearofHandicrafts';
+  src: url('./assets/TheYearofHandicrafts-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,7 +15,7 @@
     background-color: #021711;
     color: #cfe8de;
     overflow-x: hidden;
-    font-family: 'Outfit', 'IBM Plex Sans Arabic', sans-serif;
+    font-family: 'TheYearofHandicrafts', 'Outfit', 'IBM Plex Sans Arabic', sans-serif;
   }
 }
 

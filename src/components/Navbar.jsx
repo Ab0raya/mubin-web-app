@@ -42,21 +42,41 @@ export default function Navbar({ currentUser, onLogout, onOpenAuth, currentView,
 
         {/* Desktop Navigation Links */}
         <div className="hidden md:flex gap-stack-lg items-center">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              id={`nav-link-${link.href.replace('#', '')}`}
-              className={`transition-colors duration-300 font-label-sm text-label-sm ${
-                link.href === "#listen" && currentView === "listen"
-                  ? "text-primary font-bold"
-                  : "text-on-surface/70 hover:text-primary"
-              }`}
-              href={link.href}
-              onClick={(e) => handleScroll(e, link.href)}
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            if (link.href === "#listen") {
+              return (
+                <a
+                  key={link.href}
+                  id={`nav-link-${link.href.replace('#', '')}`}
+                  className={`transition-all duration-300 font-bold px-4 py-1.5 rounded-full flex items-center gap-1.5 font-label-sm text-label-sm hover:scale-105 active:scale-95 bg-gradient-to-r from-primary to-secondary text-background shadow-[0_0_20px_rgba(117,255,158,0.45)] hover:shadow-[0_0_30px_rgba(117,255,158,0.7)] ${
+                    currentView === "listen"
+                      ? "ring-2 ring-white/40"
+                      : ""
+                  }`}
+                  href={link.href}
+                  onClick={(e) => handleScroll(e, link.href)}
+                >
+                  <span className="material-symbols-outlined text-[16px] leading-none" style={{ fontVariationSettings: "'FILL' 1" }}>headphones</span>
+                  <span>{link.label}</span>
+                </a>
+              );
+            }
+            return (
+              <a
+                key={link.href}
+                id={`nav-link-${link.href.replace('#', '')}`}
+                className={`transition-colors duration-300 font-label-sm text-label-sm ${
+                  link.href === "#listen" && currentView === "listen"
+                    ? "text-primary font-bold"
+                    : "text-on-surface/70 hover:text-primary"
+                }`}
+                href={link.href}
+                onClick={(e) => handleScroll(e, link.href)}
+              >
+                {link.label}
+              </a>
+            );
+          })}
         </div>
 
         {/* Actions / Auth Display */}
@@ -106,21 +126,44 @@ export default function Navbar({ currentUser, onLogout, onOpenAuth, currentView,
       {/* Mobile Drawer */}
       {isOpen && (
         <div className="md:hidden bg-background/95 border-b border-white/10 px-6 py-4 flex flex-col gap-4 animate-fade-in">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              id={`nav-link-mobile-${link.href.replace('#', '')}`}
-              className={`transition-colors py-2 border-b border-white/5 font-label-sm text-label-sm ${
-                link.href === "#listen" && currentView === "listen"
-                  ? "text-primary font-bold"
-                  : "text-on-surface/80 hover:text-primary"
-              }`}
-              href={link.href}
-              onClick={(e) => handleScroll(e, link.href)}
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            if (link.href === "#listen") {
+              return (
+                <a
+                  key={link.href}
+                  id={`nav-link-mobile-${link.href.replace('#', '')}`}
+                  className={`transition-all duration-300 font-bold px-4 py-2.5 rounded-xl flex items-center justify-between font-label-sm text-label-sm bg-gradient-to-r from-primary to-secondary text-background shadow-[0_0_15px_rgba(117,255,158,0.35)] hover:shadow-[0_0_25px_rgba(117,255,158,0.6)] ${
+                    currentView === "listen"
+                      ? "ring-2 ring-white/40"
+                      : ""
+                  }`}
+                  href={link.href}
+                  onClick={(e) => handleScroll(e, link.href)}
+                >
+                  <span className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>headphones</span>
+                    <span>{link.label}</span>
+                  </span>
+                  <span className="material-symbols-outlined text-sm">chevron_left</span>
+                </a>
+              );
+            }
+            return (
+              <a
+                key={link.href}
+                id={`nav-link-mobile-${link.href.replace('#', '')}`}
+                className={`transition-colors py-2 border-b border-white/5 font-label-sm text-label-sm ${
+                  link.href === "#listen" && currentView === "listen"
+                    ? "text-primary font-bold"
+                    : "text-on-surface/80 hover:text-primary"
+                }`}
+                href={link.href}
+                onClick={(e) => handleScroll(e, link.href)}
+              >
+                {link.label}
+              </a>
+            );
+          })}
           <div className="flex flex-col gap-3 pt-2">
             {currentUser ? (
               <div className="flex flex-col gap-2">
