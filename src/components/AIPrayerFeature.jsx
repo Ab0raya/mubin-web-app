@@ -58,11 +58,11 @@ const POSTURES = {
   sujud: {
     key: "sujud",
     name: "السجود الخاشع",
-    desc: "يتحقق من ملامسة الأعضاء السبعة للأرض (الجبهة، الكفين، الركبتين، القدمين) لضمان الطمأنينة وعدم العجلة.",
+    desc: "يتحقق التطبيق من الوضعية الصحيحة للسجود وتطابق مفاصل الجسم وموضع الرأس واليدين بشكل سليم.",
     accuracy: 98,
     stability: 99,
     audioAlert: "سجود صحيح - سبحان ربي الأعلى",
-    statusBadge: "تم رصد السجود واستقرار الجسد",
+    statusBadge: "تم رصد السجود الصحيح",
     badgeColor: "text-primary border-primary/30 bg-primary/10",
     points: {
       head: { x: 20, y: 104 },
@@ -88,7 +88,7 @@ const POSTURES = {
     desc: "يتابع وضعية الافتراش والتورّك أثناء الجلوس الأخير أو الجلوس بين السجدتين لتنبيهك في حال النسيان.",
     accuracy: 97,
     stability: 96,
-    audioAlert: "جلسة مطمئنة - التحيات لله",
+    audioAlert: "جلسة صحيحة - التحيات لله",
     statusBadge: "تم رصد الجلوس للتشهد",
     badgeColor: "text-secondary border-secondary/30 bg-secondary/10",
     points: {
@@ -128,19 +128,10 @@ export default function AIPrayerFeature() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [rakah, setRakah] = useState(1);
-  const [stabilityOffset, setStabilityOffset] = useState(0);
   const [lastSpeechText, setLastSpeechText] = useState("");
   const intervalRef = useRef(null);
 
   const activePose = POSTURES[activePoseKey] || POSTURES.qiyam;
-
-  // Add a subtle organic noise/jitter to the stability metric to make it feel alive
-  useEffect(() => {
-    const stabilityTimer = setInterval(() => {
-      setStabilityOffset((Math.random() - 0.5) * 4);
-    }, 400);
-    return () => clearInterval(stabilityTimer);
-  }, []);
 
   // Autoplay handler: cycles through positions and increments Rakat
   useEffect(() => {
@@ -198,7 +189,6 @@ export default function AIPrayerFeature() {
   };
 
   const pts = activePose.points;
-  const currentStability = Math.min(100, Math.max(85, Math.round(activePose.stability + stabilityOffset)));
 
   return (
     <section id="ai-prayer" className="relative py-section-gap px-4 md:px-margin-desktop max-w-container-max mx-auto overflow-hidden">
@@ -216,7 +206,7 @@ export default function AIPrayerFeature() {
           مصحح الصلاة التفاعلي بالذكاء الاصطناعي
         </h2>
         <p className="text-on-surface-variant font-body-lg text-body-lg max-w-2xl mx-auto leading-relaxed">
-          التقنية الأولى من نوعها لمرافقتك في صلاتك. من خلال كاميرا الهاتف، يقوم التطبيق بمتابعة حركاتك لضمان تحقيق ركن الطمأنينة وتصحيح السهو بشكل فوري وذكي.
+          التقنية الأولى من نوعها لمرافقتك في صلاتك. من خلال كاميرا الهاتف، يقوم التطبيق بمتابعة حركاتك للتأكد من ترتيب أركان الصلاة وتنبيهك فوراً وتصحيح السهو بشكل ذكي.
         </p>
         <div className="w-24 h-1 bg-primary mx-auto rounded-full mt-6"></div>
       </div>
@@ -348,18 +338,13 @@ export default function AIPrayerFeature() {
                   ></div>
                 </div>
 
-                {/* Stability Meter & Audio Speech feedback */}
+                {/* Calibration Status & Audio Speech feedback */}
                 <div className="grid grid-cols-2 gap-2 text-[8px] border-t border-white/5 pt-2 select-none">
                   <div>
-                    <span className="text-on-surface-variant block text-right">ثبات الحركة</span>
+                    <span className="text-on-surface-variant block text-right">معايرة الهيكل</span>
                     <div className="flex items-center gap-1 mt-1 justify-end">
-                      <span className="font-bold text-white font-mono text-[9px]">{currentStability}%</span>
-                      <div className="w-12 bg-[#051c14] h-1 rounded-full overflow-hidden">
-                        <div
-                          className="bg-primary h-full transition-all duration-300"
-                          style={{ width: `${currentStability}%` }}
-                        ></div>
-                      </div>
+                      <span className="font-bold text-primary font-headline-md text-[9px]">ممتازة</span>
+                      <span className="material-symbols-outlined text-[10px] text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
                     </div>
                   </div>
                   <div className="text-left border-l border-white/5 pl-2">
@@ -460,12 +445,12 @@ export default function AIPrayerFeature() {
               }`}
             >
               <div className="w-10 h-10 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center mb-3 group-hover:scale-110 transition-transform float-right">
-                <span className="material-symbols-outlined text-2xl">change_history</span>
+                <span className="material-symbols-outlined text-2xl">fact_check</span>
               </div>
               <div className="clear-both"></div>
-              <h4 className="font-bold text-sm text-white mb-2 group-hover:text-secondary transition-colors">مقياس الطمأنينة والصحة</h4>
+              <h4 className="font-bold text-sm text-white mb-2 group-hover:text-secondary transition-colors">التحقق من ترتيب الأركان</h4>
               <p className="text-[12px] text-on-surface-variant leading-relaxed">
-                يقيس التطبيق زمن السكون والاستقرار في كل ركن من أركان الصلاة، وينبهك بلطف بعبارات مسموعة في حال العجلة أو السرعة الزائدة.
+                يتابع التطبيق تسلسل أركان الصلاة خطوة بخطوة للتأكد من الإتيان بكل ركن في موضعه الصحيح، وتنبيهك فوراً في حال حدوث أي سهو أو خلل في الترتيب.
               </p>
             </div>
 
