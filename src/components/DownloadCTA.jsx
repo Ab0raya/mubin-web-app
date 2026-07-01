@@ -1,4 +1,5 @@
 import React from "react";
+import qrCode from "../assets/qr-code.png";
 
 export default function DownloadCTA() {
   return (
@@ -53,7 +54,7 @@ export default function DownloadCTA() {
                 <img
                   className="w-full h-full"
                   alt="Mobin App QR Code"
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPIRwEWx8YAf1cdIp4XwIcMP0cM5MhVRRqIxaEtIbpocHNwTYoFoN-yXQcjyIbuvAVPpcOR9h92nSK4kPtGuV_22pYXrye-ceJ7VLgvU8a96GhaQ0sq9_AelsL0a54zBEYeOKoJo6kpV1Jhnjsah0_tQbBkT9AcsTEav9TNkVI1uyi-Z_7qpo779-kSnF9aSN9zPdY7ehvdwzKf9c0cdXsfqyqhnDE_O7ya3fm1AIEZv6lH-8g-0Ns2K2Te_8-aY6P4XT3AHXuW3k"
+                  src={qrCode}
                 />
               </div>
               
