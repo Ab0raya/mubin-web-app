@@ -479,7 +479,7 @@ export default function AIPrayerFeature() {
               }`}
             >
               <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-3 group-hover:scale-110 transition-transform float-right">
-                <span className="material-symbols-outlined text-2xl">pinpoint</span>
+                <span className="material-symbols-outlined text-2xl">track_changes</span>
               </div>
               <div className="clear-both"></div>
               <h4 className="font-bold text-sm text-white mb-2 group-hover:text-primary transition-colors">حساب الركعات وتجنب السهو</h4>
