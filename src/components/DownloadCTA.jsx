@@ -44,15 +44,15 @@ export default function DownloadCTA() {
 
           {/* QR code scanner area (Left side, RTL) */}
           <div className="lg:col-span-5 flex flex-col items-center justify-center space-y-4">
-            <div className="p-6 bg-surface-container rounded-[32px] border border-white/10 shadow-2xl relative group flex flex-col items-center justify-center max-w-[240px]">
+            <div className="p-6 bg-surface-container rounded-[32px] border border-white/10 shadow-2xl relative group flex flex-col items-center justify-center max-w-[280px] w-full">
               
               {/* Glowing ring behind QR on hover */}
               <div className="absolute inset-0 rounded-[32px] bg-primary opacity-0 group-hover:opacity-5 transition-opacity blur-xl"></div>
               
               {/* QR Container */}
-              <div className="p-4 bg-white rounded-2xl w-40 h-40 shadow-inner transform group-hover:scale-105 transition-transform duration-500 border border-white/15 relative z-10 flex items-center justify-center">
+              <div className="p-2.5 bg-white rounded-2xl w-52 h-52 shadow-inner transform group-hover:scale-105 transition-transform duration-500 border border-white/15 relative z-10 flex items-center justify-center">
                 <img
-                  className="w-full h-full"
+                  className="w-full h-full object-contain"
                   alt="Mobin App QR Code"
                   src={qrCode}
                 />
