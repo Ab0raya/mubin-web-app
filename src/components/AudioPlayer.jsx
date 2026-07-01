@@ -84,24 +84,32 @@ export default function AudioPlayer({ currentTrack, isPlaying, onTogglePlay, onT
         onEnded={onTrackEnded}
       />
 
-      <div className="max-w-container-max mx-auto px-4 md:px-margin-desktop py-3 md:py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      {/* Sleek top progress bar for mobile viewports */}
+      <div className="absolute top-0 left-0 right-0 h-0.5 bg-white/10 md:hidden">
+        <div
+          className="h-full bg-primary transition-all duration-200 ease-out"
+          style={{ width: `${(currentTime / (duration || 1)) * 100}%` }}
+        ></div>
+      </div>
+
+      <div className="max-w-container-max mx-auto px-4 md:px-margin-desktop py-3 md:py-4 flex flex-row items-center justify-between gap-4">
         
         {/* Reciter Details (Right side, matching RTL) */}
-        <div className="flex items-center gap-3 w-full md:w-auto justify-end order-1 md:order-3">
+        <div className="flex items-center gap-3 justify-end order-1 md:order-3 max-w-[60%] md:max-w-none shrink-0">
           <div className="text-right">
-            <h5 className="font-bold text-on-surface text-sm md:text-base leading-none">{currentTrack.name}</h5>
-            <span className="text-primary text-xs font-medium mt-1 inline-block">{currentTrack.narration}</span>
+            <h5 className="font-bold text-on-surface text-sm md:text-base leading-none truncate max-w-[120px] xs:max-w-none">{currentTrack.name}</h5>
+            <span className="text-primary text-[10px] md:text-xs font-medium mt-1 inline-block truncate max-w-[120px] xs:max-w-none">{currentTrack.narration}</span>
           </div>
           <img
             src={currentTrack.image}
             alt={currentTrack.name}
-            className="w-10 h-10 md:w-12 md:h-12 rounded-xl object-cover border border-white/10"
+            className="w-10 h-10 md:w-12 md:h-12 rounded-xl object-cover border border-white/10 shrink-0"
           />
         </div>
 
         {/* Playback Controls (Center, matching RTL) */}
-        <div className="flex flex-col items-center gap-2 w-full md:flex-1 md:max-w-2xl order-2 md:order-2">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col items-center justify-center gap-2 md:flex-1 md:max-w-2xl order-2 md:order-2">
+          <div className="flex items-center gap-3 md:gap-4">
             <button
               id="audio-back-10-btn"
               onClick={() => {
@@ -112,13 +120,13 @@ export default function AudioPlayer({ currentTrack, isPlaying, onTogglePlay, onT
               className="text-on-surface-variant hover:text-primary transition-colors flex items-center"
               title="ارجع 10 ثواني"
             >
-              <span className="material-symbols-outlined text-2xl">replay_10</span>
+              <span className="material-symbols-outlined text-xl md:text-2xl">replay_10</span>
             </button>
 
             <button
               id="audio-play-toggle-btn"
               onClick={onTogglePlay}
-              className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-md transform hover:scale-105 active:scale-95 transition-transform"
+              className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-md transform hover:scale-105 active:scale-95 transition-transform shrink-0"
             >
               <span className="material-symbols-outlined text-2xl md:text-3xl font-bold" style={{ fontVariationSettings: "'FILL' 1" }}>
                 {isPlaying ? "pause" : "play_arrow"}
@@ -135,12 +143,12 @@ export default function AudioPlayer({ currentTrack, isPlaying, onTogglePlay, onT
               className="text-on-surface-variant hover:text-primary transition-colors flex items-center"
               title="تقدم 10 ثواني"
             >
-              <span className="material-symbols-outlined text-2xl">forward_10</span>
+              <span className="material-symbols-outlined text-xl md:text-2xl">forward_10</span>
             </button>
           </div>
 
-          {/* Time Scrubber */}
-          <div className="flex items-center gap-2.5 w-full text-xs text-on-surface-variant">
+          {/* Time Scrubber (Hidden on mobile, visible on desktop/tablet) */}
+          <div className="hidden md:flex items-center gap-2.5 w-full text-xs text-on-surface-variant">
             <span>{formatTime(currentTime)}</span>
             <input
               id="audio-progress-scrubber"
@@ -155,8 +163,8 @@ export default function AudioPlayer({ currentTrack, isPlaying, onTogglePlay, onT
           </div>
         </div>
 
-        {/* Volume controls (Left side, matching RTL) */}
-        <div className="hidden md:flex items-center gap-2.5 order-3 md:order-1">
+        {/* Volume controls (Left side, matching RTL - hidden on mobile) */}
+        <div className="hidden md:flex items-center gap-2.5 order-3 md:order-1 shrink-0">
           <input
             id="audio-volume-slider"
             type="range"

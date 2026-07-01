@@ -73,9 +73,9 @@ export default function Carousel() {
             if (isCenter) {
               cardStyles = "opacity-100 scale-100 z-30 translate-x-0 cursor-default";
             } else if (isLeft) {
-              cardStyles = "opacity-40 scale-85 z-10 -translate-x-[150px] md:-translate-x-[220px] rotate-[8deg] cursor-pointer blur-[2px] hover:opacity-65";
+              cardStyles = "opacity-40 scale-85 z-10 -translate-x-[90px] sm:-translate-x-[150px] md:-translate-x-[220px] rotate-[8deg] cursor-pointer blur-[2px] hover:opacity-65";
             } else if (isRight) {
-              cardStyles = "opacity-40 scale-85 z-10 translate-x-[150px] md:translate-x-[220px] -rotate-[8deg] cursor-pointer blur-[2px] hover:opacity-65";
+              cardStyles = "opacity-40 scale-85 z-10 translate-x-[90px] sm:translate-x-[150px] md:translate-x-[220px] -rotate-[8deg] cursor-pointer blur-[2px] hover:opacity-65";
             }
 
             return (
