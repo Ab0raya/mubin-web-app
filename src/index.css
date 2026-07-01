@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #021711;
+    color: #cfe8de;
+    overflow-x: hidden;
+    font-family: 'Outfit', 'IBM Plex Sans Arabic', sans-serif;
+  }
+}
+
+.glass-card {
+  background: rgba(13, 35, 29, 0.6);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.glow-primary {
+  box-shadow: 0 0 30px rgba(0, 230, 118, 0.3);
+}
+
+.bloom-effect {
+  filter: blur(80px);
+  opacity: 0.15;
+  z-index: -1;
+}
+
+.heatmap-cell {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.iphone-mockup {
+  border: 8px solid #1a1a1a;
+  border-radius: 48px;
+  overflow: hidden;
+  box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.5);
+}
+
+/* Custom scrollbar for web browser views */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #021711;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #182e27;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #233932;
+}
+
+/* Sound-wave equalizer animation */
+@keyframes sound-wave {
+  0% {
+    transform: scaleY(0.25);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+.equalizer-bar {
+  display: inline-block;
+  width: 3px;
+  height: 16px;
+  background-color: #75ff9e;
+  border-radius: 1px;
+  transform-origin: bottom;
+}
+
+.animate-eq-1 {
+  animation: sound-wave 0.5s ease-in-out infinite alternate;
+}
+
+.animate-eq-2 {
+  animation: sound-wave 0.8s ease-in-out infinite alternate 0.15s;
+}
+
+.animate-eq-3 {
+  animation: sound-wave 0.65s ease-in-out infinite alternate 0.3s;
+}
+
+.animate-eq-4 {
+  animation: sound-wave 0.75s ease-in-out infinite alternate 0.45s;
+}
+
+/* Tall sound-wave equalizer animation */
+@keyframes tall-sound-wave {
+  0% {
+    transform: scaleY(0.12);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+.large-eq-bar {
+  display: inline-block;
+  width: 6px;
+  height: 48px;
+  background: linear-gradient(180deg, #75ff9e 0%, #059669 100%);
+  border-radius: 3px;
+  transform-origin: bottom;
+}
+
+.animate-large-eq-1 {
+  animation: tall-sound-wave 0.6s ease-in-out infinite alternate;
+}
+
+.animate-large-eq-2 {
+  animation: tall-sound-wave 0.9s ease-in-out infinite alternate 0.1s;
+}
+
+.animate-large-eq-3 {
+  animation: tall-sound-wave 0.72s ease-in-out infinite alternate 0.2s;
+}
+
+.animate-large-eq-4 {
+  animation: tall-sound-wave 0.82s ease-in-out infinite alternate 0.3s;
+}
+
+.animate-large-eq-5 {
+  animation: tall-sound-wave 0.52s ease-in-out infinite alternate 0.4s;
+}
+
+
