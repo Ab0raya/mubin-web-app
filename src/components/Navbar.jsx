@@ -7,6 +7,7 @@ export default function Navbar({ currentUser, onLogout, onOpenAuth, currentView,
   const navLinks = [
     { label: "الرئيسية", href: "#hero" },
     { label: "المميزات", href: "#features" },
+    { label: "مساعد الصلاة", href: "#ai-prayer" },
     { label: "الإحصائيات", href: "#stats" },
     { label: "إستماع", href: "#listen" },
     { label: "تحميل", href: "#download" },

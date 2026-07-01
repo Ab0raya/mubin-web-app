@@ -10,6 +10,7 @@ import AuthForm from "./components/AuthForm";
 import DownloadCTA from "./components/DownloadCTA";
 import Footer from "./components/Footer";
 import ListenDashboard from "./components/ListenDashboard";
+import AIPrayerFeature from "./components/AIPrayerFeature";
 
 export default function App() {
   // Global User Session State
@@ -102,6 +103,9 @@ export default function App() {
 
             {/* Bento Features Grid */}
             <Features />
+
+            {/* AI Prayer Monitor Showcase */}
+            <AIPrayerFeature />
 
             {/* Stateful Statistics Grid */}
             <StatsDashboard currentUser={currentUser} onOpenAuth={() => scrollToSection("auth")} />
