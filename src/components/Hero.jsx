@@ -5,15 +5,15 @@ export default function Hero({ onStartJourney }) {
   const [showVideo, setShowVideo] = useState(false);
 
   return (
-    <section id="hero" className="relative pt-[120px] md:pt-[200px] pb-section-gap px-4 md:px-margin-desktop max-w-container-max mx-auto overflow-visible">
+    <section id="hero" className="relative pt-[120px] md:pt-[160px] pb-20 md:pb-28 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-visible scroll-mt-28">
       {/* Background Glow */}
       <div className="absolute top-0 right-1/4 w-[250px] h-[250px] md:w-[500px] md:h-[500px] bg-primary bloom-effect rounded-full"></div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-stack-lg items-center">
         {/* Texts and CTA */}
         <div className="space-y-stack-lg text-right">
-          <span className="inline-block px-4 py-1 rounded-full bg-secondary/10 text-secondary border border-secondary/20 font-label-sm text-label-sm uppercase tracking-widest">
-            Premium Islamic App
+          <span className="inline-block px-4 py-1.5 rounded-full bg-secondary/10 text-secondary border border-secondary/20 font-label-sm text-label-sm tracking-widest">
+            تطبيق إسلامي متكامل
           </span>
           <h1 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg lg:text-[64px] lg:leading-[72px] text-on-surface">
             القرآن الكريم <br />
@@ -23,11 +23,11 @@ export default function Hero({ onStartJourney }) {
             Your Complete Quran Companion. تجربة روحانية معاصرة تجمع بين عبق التراث وأحدث التقنيات الرقمية لتعزيز علاقتك بكتاب الله.
           </p>
           
-          <div className="flex flex-wrap gap-stack-md pt-4">
+          <div className="flex flex-wrap gap-3 sm:gap-4 pt-4">
             <button
               id="hero-start-btn"
               onClick={onStartJourney}
-              className="px-8 py-4 rounded-2xl bg-primary text-on-primary font-bold flex items-center gap-2 glow-primary hover:scale-105 active:scale-95 transition-transform"
+              className="min-h-[52px] px-8 py-4 rounded-2xl bg-primary text-on-primary font-bold flex items-center gap-2 glow-primary hover:brightness-110 active:brightness-95 transition-colors duration-200 cursor-pointer"
             >
               <span className="material-symbols-outlined font-bold">explore</span>
               ابدأ رحلتك الآن
@@ -35,7 +35,8 @@ export default function Hero({ onStartJourney }) {
             <button
               id="hero-watch-btn"
               onClick={() => setShowVideo(true)}
-              className="px-8 py-4 rounded-2xl border border-white/10 glass-card font-bold flex items-center gap-2 hover:bg-white/5 active:scale-95 transition-all"
+              aria-haspopup="dialog"
+              className="min-h-[52px] px-8 py-4 rounded-2xl border border-white/10 glass-card font-bold flex items-center gap-2 hover:bg-white/5 hover:border-white/20 active:bg-white/10 transition-colors duration-200 cursor-pointer"
             >
               <span className="material-symbols-outlined">play_circle</span>
               شاهد العرض
@@ -47,7 +48,7 @@ export default function Hero({ onStartJourney }) {
         <div className="relative flex justify-center mt-10 lg:mt-0">
           <div
             id="hero-logo-container"
-            className="relative w-[280px] h-[280px] md:w-[360px] md:h-[360px] rounded-[48px] bg-gradient-to-br from-surface-container-high/40 to-surface-container-highest/20 p-8 flex items-center justify-center border border-primary/20 shadow-2xl backdrop-blur-md transform hover:scale-[1.03] transition-all duration-700 cursor-pointer group"
+            className="relative w-[280px] h-[280px] md:w-[360px] md:h-[360px] rounded-[48px] bg-gradient-to-br from-surface-container-high/40 to-surface-container-highest/20 p-8 flex items-center justify-center border border-primary/20 shadow-2xl backdrop-blur-md transition-colors duration-200 cursor-pointer group"
           >
             {/* Ambient glow behind logo */}
             <div className="absolute inset-0 rounded-[48px] bg-primary/10 opacity-40 blur-2xl group-hover:opacity-60 transition-opacity"></div>
@@ -63,12 +64,13 @@ export default function Hero({ onStartJourney }) {
 
       {/* Video Modal (Promo/Walkthrough) */}
       {showVideo && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md px-4">
-          <div className="relative w-full max-w-4xl bg-surface-container rounded-3xl overflow-hidden border border-white/10 shadow-2xl p-2">
+        <div role="dialog" aria-modal="true" aria-label="عرض تعريفي بالتطبيق" className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md px-4 sm:px-6" onClick={() => setShowVideo(false)}>
+          <div className="relative w-full max-w-4xl bg-surface-container rounded-3xl overflow-hidden border border-white/10 shadow-2xl p-2" onClick={(e) => e.stopPropagation()}>
             <button
               id="hero-close-video-btn"
               onClick={() => setShowVideo(false)}
-              className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-primary hover:text-black transition-colors"
+              aria-label="إغلاق الفيديو"
+              className="absolute top-4 right-4 z-10 min-w-[44px] min-h-[44px] w-11 h-11 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-primary hover:text-black transition-colors duration-200 cursor-pointer"
             >
               <span className="material-symbols-outlined">close</span>
             </button>

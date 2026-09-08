@@ -126,7 +126,9 @@ export default function AudioPlayer({ currentTrack, isPlaying, onTogglePlay, onT
             <button
               id="audio-play-toggle-btn"
               onClick={onTogglePlay}
-              className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-md transform hover:scale-105 active:scale-95 transition-transform shrink-0"
+              aria-label={isPlaying ? "إيقاف مؤقت" : "تشغيل"}
+              aria-pressed={isPlaying}
+              className="min-w-[48px] min-h-[48px] w-12 h-12 md:w-12 md:h-12 rounded-full bg-primary text-on-primary-fixed flex items-center justify-center shadow-md hover:brightness-110 active:brightness-95 transition-colors duration-200 cursor-pointer shrink-0"
             >
               <span className="material-symbols-outlined text-2xl md:text-3xl font-bold" style={{ fontVariationSettings: "'FILL' 1" }}>
                 {isPlaying ? "pause" : "play_arrow"}

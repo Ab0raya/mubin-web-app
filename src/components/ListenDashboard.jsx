@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { SURAHS } from "../data/surahs";
 import { RECITERS } from "../data/reciters";
+import AyahIntervalTrainer from "./AyahIntervalTrainer";
 
 export default function ListenDashboard() {
   const [activeReciterKey, setActiveReciterKey] = useState("afs"); // Default to Alafasy (afs)
@@ -14,6 +15,7 @@ export default function ListenDashboard() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isShuffle, setIsShuffle] = useState(false);
   const [isRepeat, setIsRepeat] = useState(false);
+  const [playbackSpeed, setPlaybackSpeed] = useState(1);
   const [mobileTab, setMobileTab] = useState("player"); // "surahs", "player", "reciters"
 
   const audioRef = useRef(null);
@@ -120,6 +122,13 @@ export default function ListenDashboard() {
     }
   }, [volume, isMuted]);
 
+  // Sync playback speed to HTML Audio (surah player)
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.playbackRate = playbackSpeed;
+    }
+  }, [playbackSpeed, audioUrl]);
+
   // Toggle Like Status
   const toggleLike = (surahId) => {
     setLikedSurahs((prev) =>
@@ -150,22 +159,25 @@ export default function ListenDashboard() {
   // Search input renderer
   const renderSearchInput = () => (
     <div className="relative mb-4">
-      <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-base">
+      <span aria-hidden="true" className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-base">
         search
       </span>
+      <label htmlFor="surah-search" className="sr-only">ابحث عن سورة</label>
       <input
-        type="text"
+        id="surah-search"
+        type="search"
         placeholder="ابحث عن سورة..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="w-full bg-[#051c14] border border-[#143d32]/35 text-[#cfe8de] rounded-xl pr-9 pl-4 py-2 text-right focus:outline-none focus:border-primary transition-all text-xs"
+        className="input-field pr-10"
       />
       {searchQuery && (
         <button
           onClick={() => setSearchQuery("")}
-          className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors"
+          aria-label="مسح البحث"
+          className="absolute left-2 top-1/2 -translate-y-1/2 min-w-[36px] min-h-[36px] flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer rounded-lg"
         >
-          <span className="material-symbols-outlined text-xs">close</span>
+          <span className="material-symbols-outlined text-base" aria-hidden="true">close</span>
         </button>
       )}
     </div>
@@ -186,10 +198,10 @@ export default function ListenDashboard() {
                 setIsPlaying(true);
                 setMobileTab("player");
               }}
-              className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all text-right group ${
+              className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-colors duration-200 cursor-pointer text-right group min-h-[60px] ${
                 isActive
                   ? "bg-primary/10 border border-primary/20 text-primary"
-                  : "hover:bg-white/5 border border-transparent text-[#bacbb9]"
+                  : "hover:bg-white/5 border border-transparent text-on-surface-variant hover:text-on-surface"
               }`}
             >
               <div className="flex flex-col text-left">
@@ -202,7 +214,7 @@ export default function ListenDashboard() {
               </div>
 
               <div className="flex items-center gap-3">
-                <span className="text-xs md:text-sm font-semibold font-headline-md">{surah.arabic}</span>
+                <span className="text-xs md:text-sm font-semibold font-quran">{surah.arabic}</span>
                 {isActive ? (
                   <span className="w-2.5 h-2.5 rounded-full bg-primary block shadow-md animate-pulse"></span>
                 ) : (
@@ -238,10 +250,10 @@ export default function ListenDashboard() {
                   setActiveReciterKey(r.key);
                   setMobileTab("player");
                 }}
-                className={`flex items-center justify-between p-2 rounded-xl border transition-all cursor-pointer group ${
+                className={`flex items-center justify-between p-2.5 rounded-xl border transition-colors duration-200 cursor-pointer group min-h-[56px] ${
                   isActive 
                     ? "border-primary/20 bg-primary/10 text-primary" 
-                    : "border-transparent hover:border-[#143d32]/30 hover:bg-white/5"
+                    : "border-transparent hover:border-white/10 hover:bg-white/5"
                 }`}
               >
                 {/* Left side (indicates active state) */}
@@ -276,7 +288,7 @@ export default function ListenDashboard() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-[#020e0a] text-[#cfe8de] pt-[80px] pb-[76px] md:pb-[90px] flex flex-col font-sans select-none">
+    <div className="w-full min-h-screen bg-background text-on-background pt-[104px] pb-[76px] md:pb-[90px] flex flex-col font-sans select-none">
       {/* Hidden Audio Node */}
       <audio
         ref={audioRef}
@@ -291,10 +303,10 @@ export default function ListenDashboard() {
         {/* ======================================================
             1. LEFT SIDEBAR: Surah List (Visible only on md+)
             ====================================================== */}
-        <aside className="hidden md:flex flex-col w-[280px] bg-[#010a07] border-r border-[#143d32]/30 p-6 overflow-y-auto scrollbar-thin">
-          <div className="flex items-center gap-3 mb-6 justify-end">
-            <h3 className="font-bold text-lg text-white font-headline-md">قائمة السور</h3>
-            <span className="material-symbols-outlined text-primary font-bold text-2xl">menu_book</span>
+        <aside aria-label="قائمة السور" className="hidden md:flex flex-col w-[280px] bg-black/30 border-r border-white/10 p-4 lg:p-6 overflow-y-auto scrollbar-thin">
+          <div className="flex items-center gap-3 mb-5 justify-end">
+            <h3 className="font-bold text-lg text-white">قائمة السور</h3>
+            <span aria-hidden="true" className="material-symbols-outlined text-primary font-bold text-2xl">menu_book</span>
           </div>
 
           {renderSearchInput()}
@@ -304,35 +316,38 @@ export default function ListenDashboard() {
         {/* ======================================================
             2. MIDDLE AREA: Tabs, Search, Hero, Recents Table
             ====================================================== */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-8 bg-gradient-to-b from-[#031d15] to-[#010c08] flex flex-col gap-4 md:gap-6 scrollbar-thin">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-gradient-to-b from-surface-container-low to-background flex flex-col gap-4 md:gap-6 scrollbar-thin">
           
           {/* Mobile/Tablet View Switcher (Visible on < xl) */}
-          <div className="flex xl:hidden bg-[#02150f]/80 backdrop-blur-md rounded-2xl border border-[#143d32]/30 p-1 justify-between text-xs font-bold w-full shrink-0 select-none">
+          <div role="tablist" aria-label="أقسام الاستماع" className="flex xl:hidden bg-black/30 backdrop-blur-md rounded-2xl border border-white/10 p-1.5 justify-between text-xs font-bold w-full shrink-0 select-none">
             <button
+              role="tab" aria-selected={mobileTab === "surahs"}
               onClick={() => setMobileTab("surahs")}
-              className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl transition-all ${
-                mobileTab === "surahs" ? "text-primary bg-primary/10 border border-primary/20" : "text-[#bacbb9] hover:text-white"
+              className={`flex-1 min-h-[44px] flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl transition-colors duration-200 cursor-pointer ${
+                mobileTab === "surahs" ? "text-primary bg-primary/10 border border-primary/20" : "text-on-surface-variant hover:text-white"
               } md:hidden`}
             >
-              <span className="material-symbols-outlined text-sm">menu_book</span>
+              <span aria-hidden="true" className="material-symbols-outlined text-base">menu_book</span>
               <span>السور</span>
             </button>
             <button
+              role="tab" aria-selected={mobileTab === "player"}
               onClick={() => setMobileTab("player")}
-              className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl transition-all ${
-                mobileTab === "player" ? "text-primary bg-primary/10 border border-primary/20" : "text-[#bacbb9] hover:text-white"
+              className={`flex-1 min-h-[44px] flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl transition-colors duration-200 cursor-pointer ${
+                mobileTab === "player" ? "text-primary bg-primary/10 border border-primary/20" : "text-on-surface-variant hover:text-white"
               }`}
             >
-              <span className="material-symbols-outlined text-sm">play_circle</span>
+              <span aria-hidden="true" className="material-symbols-outlined text-base">play_circle</span>
               <span>الآن يستمع</span>
             </button>
             <button
+              role="tab" aria-selected={mobileTab === "reciters"}
               onClick={() => setMobileTab("reciters")}
-              className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl transition-all ${
-                mobileTab === "reciters" ? "text-primary bg-primary/10 border border-primary/20" : "text-[#bacbb9] hover:text-white"
+              className={`flex-1 min-h-[44px] flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl transition-colors duration-200 cursor-pointer ${
+                mobileTab === "reciters" ? "text-primary bg-primary/10 border border-primary/20" : "text-on-surface-variant hover:text-white"
               }`}
             >
-              <span className="material-symbols-outlined text-sm">record_voice_over</span>
+              <span aria-hidden="true" className="material-symbols-outlined text-base">record_voice_over</span>
               <span>القراء</span>
             </button>
           </div>
@@ -360,7 +375,7 @@ export default function ListenDashboard() {
 
             {/* Player View (Default view) */}
             {mobileTab === "player" && (
-              <div className="flex-1 flex flex-col items-center justify-center">
+              <div className="flex-1 flex flex-col items-center justify-center gap-6 py-4">
                 {/* Now Playing Large Card */}
                 <div className="w-full max-w-2xl glass-card rounded-3xl p-6 md:p-12 relative overflow-hidden flex flex-col items-center justify-center text-center gap-6 md:gap-8 shadow-2xl">
                   {/* Decorative aura behind content */}
@@ -369,7 +384,7 @@ export default function ListenDashboard() {
                   {/* Surah Arabic Name (Large Calligraphy Styling) */}
                   <div className="relative">
                     <span className={`absolute -inset-2 bg-primary/20 blur-md rounded-full transition-opacity duration-500 ${isPlaying ? "opacity-40" : "opacity-0"}`}></span>
-                    <h1 className="text-6xl md:text-8xl font-bold text-primary font-headline-lg relative drop-shadow-[0_4px_12px_rgba(117,255,158,0.2)]">
+                    <h1 className="text-6xl md:text-8xl font-bold text-primary font-quran relative drop-shadow-[0_4px_12px_rgba(117,255,158,0.2)] leading-tight">
                       {activeSurah.arabic}
                     </h1>
                   </div>
@@ -398,10 +413,12 @@ export default function ListenDashboard() {
                   {/* Play / Pause Interactive button in card */}
                   <button
                     onClick={togglePlay}
-                    className={`w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-all shadow-xl hover:scale-105 active:scale-95 ${
+                    aria-label={isPlaying ? "إيقاف مؤقت" : "تشغيل السورة"}
+                    aria-pressed={isPlaying}
+                    className={`min-w-[60px] min-h-[60px] w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-colors duration-200 cursor-pointer shadow-xl hover:brightness-110 active:brightness-95 ${
                       isPlaying 
-                        ? "bg-primary text-[#00210b] shadow-primary/20" 
-                        : "bg-[#021711] border border-white/10 text-white hover:border-primary/20 hover:bg-[#07241d]"
+                        ? "bg-primary text-on-primary-fixed shadow-primary/20" 
+                        : "bg-surface border border-white/10 text-white hover:border-primary/20"
                     }`}
                   >
                     <span className="material-symbols-outlined font-bold text-2xl md:text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>
@@ -429,6 +446,9 @@ export default function ListenDashboard() {
                   </div>
 
                 </div>
+
+                {/* Ayah interval trainer: from/to + speed + repeat */}
+                <AyahIntervalTrainer surahId={activeSurah.id} surahArabicName={activeSurah.arabic} />
               </div>
             )}
           </div>
@@ -473,7 +493,7 @@ export default function ListenDashboard() {
       {/* ======================================================
           4. BOTTOM AUDIO PLAYER BAR (Responsive Refactor)
           ====================================================== */}
-      <footer className="fixed bottom-0 left-0 w-full h-[76px] md:h-[90px] bg-[#03130f] border-t border-[#143d32]/30 px-4 md:px-6 py-3 md:py-4 flex flex-row items-center justify-between z-50 select-none">
+      <footer className="fixed bottom-0 left-0 w-full min-h-[76px] md:min-h-[90px] bg-surface-container-low/95 backdrop-blur-xl border-t border-white/10 px-4 sm:px-6 py-3 md:py-4 flex flex-row items-center justify-between z-50 select-none">
         
         {/* Top border progress bar for mobile viewports */}
         <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#010907] md:hidden">
@@ -498,7 +518,9 @@ export default function ListenDashboard() {
 
           <button
             onClick={() => toggleLike(activeSurah.id)}
-            className="text-on-surface-variant hover:text-error transition-colors ml-1 focus:outline-none shrink-0"
+            aria-label={likedSurahs.includes(activeSurah.id) ? "إزالة من المفضلة" : "إضافة إلى المفضلة"}
+            aria-pressed={likedSurahs.includes(activeSurah.id)}
+            className="min-w-[40px] min-h-[40px] flex items-center justify-center text-on-surface-variant hover:text-error transition-colors duration-200 cursor-pointer rounded-lg ml-1"
           >
             <span
               className="material-symbols-outlined text-base md:text-lg"
@@ -516,7 +538,9 @@ export default function ListenDashboard() {
             {/* Shuffle Button (Hidden on mobile) */}
             <button
               onClick={() => setIsShuffle(!isShuffle)}
-              className={`hidden md:inline-block transition-colors ${isShuffle ? "text-primary" : "text-on-surface-variant hover:text-white"}`}
+              aria-label="تشغيل عشوائي"
+              aria-pressed={isShuffle}
+              className={`hidden md:flex min-w-[40px] min-h-[40px] items-center justify-center rounded-lg transition-colors duration-200 cursor-pointer ${isShuffle ? "text-primary" : "text-on-surface-variant hover:text-white"}`}
               title="Shuffle"
             >
               <span className="material-symbols-outlined text-lg">shuffle</span>
@@ -525,18 +549,21 @@ export default function ListenDashboard() {
             {/* Skip Previous */}
             <button
               onClick={handlePrev}
-              className="text-on-surface-variant hover:text-white transition-colors"
+              aria-label="السورة السابقة"
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center text-on-surface-variant hover:text-white transition-colors duration-200 cursor-pointer rounded-full"
               title="Previous"
             >
-              <span className="material-symbols-outlined text-lg md:text-xl">skip_previous</span>
+              <span className="material-symbols-outlined text-xl md:text-2xl">skip_previous</span>
             </button>
 
             {/* Play/Pause Button */}
             <button
               onClick={togglePlay}
-              className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-primary text-[#00210b] flex items-center justify-center shadow-lg transform hover:scale-105 active:scale-95 transition-transform shrink-0"
+              aria-label={isPlaying ? "إيقاف مؤقت" : "تشغيل"}
+              aria-pressed={isPlaying}
+              className="min-w-[44px] min-h-[44px] w-11 h-11 md:w-12 md:h-12 rounded-full bg-primary text-on-primary-fixed flex items-center justify-center shadow-lg hover:brightness-110 active:brightness-95 transition-colors duration-200 cursor-pointer shrink-0"
             >
-              <span className="material-symbols-outlined text-lg md:text-xl font-bold" style={{ fontVariationSettings: "'FILL' 1" }}>
+              <span className="material-symbols-outlined text-xl md:text-2xl font-bold" style={{ fontVariationSettings: "'FILL' 1" }}>
                 {isPlaying ? "pause" : "play_arrow"}
               </span>
             </button>
@@ -544,20 +571,39 @@ export default function ListenDashboard() {
             {/* Skip Next */}
             <button
               onClick={handleNext}
-              className="text-on-surface-variant hover:text-white transition-colors"
+              aria-label="السورة التالية"
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center text-on-surface-variant hover:text-white transition-colors duration-200 cursor-pointer rounded-full"
               title="Next"
             >
-              <span className="material-symbols-outlined text-lg md:text-xl">skip_next</span>
+              <span className="material-symbols-outlined text-xl md:text-2xl">skip_next</span>
             </button>
 
             {/* Repeat Button (Hidden on mobile) */}
             <button
               onClick={() => setIsRepeat(!isRepeat)}
-              className={`hidden md:inline-block transition-colors ${isRepeat ? "text-primary" : "text-on-surface-variant hover:text-white"}`}
+              aria-label="تكرار السورة"
+              aria-pressed={isRepeat}
+              className={`hidden md:flex min-w-[40px] min-h-[40px] items-center justify-center rounded-lg transition-colors duration-200 cursor-pointer ${isRepeat ? "text-primary" : "text-on-surface-variant hover:text-white"}`}
               title="Repeat"
             >
               <span className="material-symbols-outlined text-lg">repeat</span>
             </button>
+
+            {/* Playback speed (surah player) */}
+            <label htmlFor="surah-speed" className="sr-only">سرعة تشغيل السورة</label>
+            <select
+              id="surah-speed"
+              value={playbackSpeed}
+              onChange={(e) => setPlaybackSpeed(parseFloat(e.target.value))}
+              title="سرعة التشغيل"
+              className="hidden md:inline-block input-field !w-auto !px-2 !py-1.5 !text-[11px] cursor-pointer"
+            >
+              {[0.5, 0.75, 1, 1.25, 1.5, 2].map((s) => (
+                <option key={s} value={s}>
+                  {s}x
+                </option>
+              ))}
+            </select>
 
           </div>
 

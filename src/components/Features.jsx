@@ -34,24 +34,28 @@ export default function Features() {
   };
 
   return (
-    <section id="features" className="py-section-gap px-4 md:px-margin-desktop max-w-container-max mx-auto">
-      <div className="text-center mb-16 md:mb-section-gap">
+    <section id="features" className="py-20 md:py-28 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-28">
+      <div className="text-center mb-12 md:mb-16">
         <h2 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-stack-md">
           مميزات ذكية لروحانية أعمق
         </h2>
         <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-stack-lg">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
         {/* Render standard cards */}
         {features.map((feat, index) => (
           <div
             key={index}
             onClick={() => handleCardClick(feat.targetId)}
-            className={`glass-card p-stack-lg rounded-2xl group hover:border-primary/30 transition-all duration-500 hover:-translate-y-2 ${feat.targetId ? "cursor-pointer" : ""}`}
+            onKeyDown={(e) => { if ((e.key === "Enter" || e.key === " ") && feat.targetId) { e.preventDefault(); handleCardClick(feat.targetId); } }}
+            role={feat.targetId ? "button" : undefined}
+            tabIndex={feat.targetId ? 0 : undefined}
+            aria-label={feat.targetId ? `${feat.title} — انتقل إلى القسم` : feat.title}
+            className={`glass-card p-6 md:p-8 rounded-2xl group hover:border-primary/30 hover:shadow-[0_20px_40px_rgba(0,0,0,0.35)] transition-colors duration-200 ${feat.targetId ? "cursor-pointer" : ""}`}
           >
-            <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-stack-md group-hover:scale-110 transition-transform ${feat.colorClass.split(" ")[0]} ${feat.colorClass.split(" ")[1]}`}>
-              <span className="material-symbols-outlined text-3xl">{feat.icon}</span>
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${feat.colorClass.split(" ")[0]} ${feat.colorClass.split(" ")[1]}`}>
+              <span className="material-symbols-outlined text-3xl" aria-hidden="true">{feat.icon}</span>
             </div>
             <h3 className="font-headline-md text-headline-md text-on-surface mb-2">{feat.title}</h3>
             <p className="text-on-surface-variant font-body-md leading-relaxed">{feat.description}</p>
@@ -59,10 +63,10 @@ export default function Features() {
         ))}
 
         {/* Feature 4 (Large Bento Item) */}
-        <div className="glass-card p-stack-lg rounded-2xl group hover:border-primary/30 transition-all duration-500 hover:-translate-y-2 md:col-span-2 overflow-hidden relative">
+        <div className="glass-card p-6 md:p-8 rounded-2xl group hover:border-primary/30 hover:shadow-[0_20px_40px_rgba(0,0,0,0.35)] transition-colors duration-200 md:col-span-2 overflow-hidden relative">
           <div className="relative z-10 max-w-lg">
-            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-stack-md group-hover:scale-110 transition-transform">
-              <span className="material-symbols-outlined text-3xl">local_fire_department</span>
+            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-4">
+              <span className="material-symbols-outlined text-3xl" aria-hidden="true">local_fire_department</span>
             </div>
             <h3 className="font-headline-md text-headline-md text-on-surface mb-2">التحدي والتحفيز</h3>
             <p className="text-on-surface-variant font-body-md leading-relaxed">
@@ -72,9 +76,9 @@ export default function Features() {
         </div>
 
         {/* Feature 5 */}
-        <div className="glass-card p-stack-lg rounded-2xl group hover:border-primary/30 transition-all duration-500 hover:-translate-y-2">
-          <div className="w-12 h-12 rounded-xl bg-on-tertiary-fixed-variant/10 flex items-center justify-center text-on-tertiary-fixed-variant mb-stack-md group-hover:scale-110 transition-transform">
-            <span className="material-symbols-outlined text-3xl">sync</span>
+        <div className="glass-card p-6 md:p-8 rounded-2xl group hover:border-primary/30 hover:shadow-[0_20px_40px_rgba(0,0,0,0.35)] transition-colors duration-200">
+          <div className="w-12 h-12 rounded-xl bg-on-tertiary-fixed-variant/10 flex items-center justify-center text-on-tertiary-fixed-variant mb-4">
+            <span className="material-symbols-outlined text-3xl" aria-hidden="true">sync</span>
           </div>
           <h3 className="font-headline-md text-headline-md text-on-surface mb-2">مزامنة سحابية</h3>
           <p className="text-on-surface-variant font-body-md leading-relaxed">

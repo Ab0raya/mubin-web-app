@@ -32,12 +32,12 @@ export default function Navbar({ currentUser, onLogout, onOpenAuth, currentView,
   };
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-surface/60 backdrop-blur-2xl border-b border-white/10 shadow-[0px_20px_40px_rgba(0,0,0,0.4)]">
-      <div className="flex justify-between items-center w-full px-4 md:px-margin-desktop py-4 md:py-6 max-w-container-max mx-auto">
+    <nav aria-label="التنقل الرئيسي" className="fixed top-4 left-4 right-4 z-50 rounded-2xl bg-surface/80 backdrop-blur-2xl border border-white/10 shadow-[0px_20px_40px_rgba(0,0,0,0.4)]">
+      <div className="flex justify-between items-center w-full px-4 sm:px-6 lg:px-8 py-3 md:py-4 max-w-7xl mx-auto">
         
         {/* Logo */}
-        <div id="nav-logo" className="flex items-center cursor-pointer" onClick={(e) => handleScroll(e, "#hero")}>
-          <img src={textLogo} alt="مبين" className="h-8 md:h-9 w-auto" />
+        <div id="nav-logo" role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleScroll(e, "#hero"); }} className="flex items-center cursor-pointer rounded-lg focus:outline-none" onClick={(e) => handleScroll(e, "#hero")}>
+          <img src={textLogo} alt="مبين — الصفحة الرئيسية" className="h-8 md:h-9 w-auto" />
         </div>
 
         {/* Desktop Navigation Links */}
@@ -48,7 +48,8 @@ export default function Navbar({ currentUser, onLogout, onOpenAuth, currentView,
                 <a
                   key={link.href}
                   id={`nav-link-${link.href.replace('#', '')}`}
-                  className={`transition-all duration-300 font-bold px-4 py-1.5 rounded-full flex items-center gap-1.5 font-label-sm text-label-sm hover:scale-105 active:scale-95 bg-gradient-to-r from-primary to-secondary text-background shadow-[0_0_20px_rgba(117,255,158,0.45)] hover:shadow-[0_0_30px_rgba(117,255,158,0.7)] ${
+                  aria-current={currentView === "listen" ? "page" : undefined}
+                  className={`transition-colors duration-200 font-bold px-4 py-2 rounded-full flex items-center gap-1.5 font-label-sm text-label-sm cursor-pointer bg-gradient-to-r from-primary to-secondary text-background shadow-[0_0_20px_rgba(117,255,158,0.45)] hover:shadow-[0_0_30px_rgba(117,255,158,0.7)] hover:brightness-110 active:brightness-95 ${
                     currentView === "listen"
                       ? "ring-2 ring-white/40"
                       : ""
@@ -65,7 +66,7 @@ export default function Navbar({ currentUser, onLogout, onOpenAuth, currentView,
               <a
                 key={link.href}
                 id={`nav-link-${link.href.replace('#', '')}`}
-                className={`transition-colors duration-300 font-label-sm text-label-sm ${
+                className={`transition-colors duration-200 font-label-sm text-label-sm cursor-pointer rounded-md px-1 py-1 ${
                   link.href === "#listen" && currentView === "listen"
                     ? "text-primary font-bold"
                     : "text-on-surface/70 hover:text-primary"
@@ -87,7 +88,7 @@ export default function Navbar({ currentUser, onLogout, onOpenAuth, currentView,
               <button
                 id="nav-logout-btn"
                 onClick={onLogout}
-                className="px-5 py-2 rounded-full border border-error text-error hover:bg-error/10 transition-all font-label-sm text-label-sm"
+                className="px-5 py-2 rounded-full border border-error text-error hover:bg-error/10 transition-colors duration-200 font-label-sm text-label-sm cursor-pointer"
               >
                 تسجيل الخروج
               </button>
@@ -96,7 +97,7 @@ export default function Navbar({ currentUser, onLogout, onOpenAuth, currentView,
             <button
               id="nav-login-btn"
               onClick={onOpenAuth}
-              className="px-6 py-2 rounded-full border border-secondary text-secondary hover:bg-secondary/10 transition-colors font-label-sm text-label-sm"
+              className="px-6 py-2 rounded-full border border-secondary text-secondary hover:bg-secondary/10 transition-colors duration-200 font-label-sm text-label-sm cursor-pointer"
             >
               تسجيل الدخول
             </button>
@@ -105,7 +106,7 @@ export default function Navbar({ currentUser, onLogout, onOpenAuth, currentView,
             id="nav-download-btn"
             href="#download"
             onClick={(e) => handleScroll(e, "#download")}
-            className="px-6 py-2 rounded-full bg-primary-container text-on-primary-container font-bold hover:opacity-90 active:scale-95 transition-transform font-label-sm text-label-sm"
+            className="px-6 py-2 rounded-full bg-primary-container text-on-primary-container font-bold hover:brightness-110 active:brightness-95 transition-colors duration-200 font-label-sm text-label-sm cursor-pointer"
           >
             تحميل التطبيق
           </a>
@@ -115,7 +116,9 @@ export default function Navbar({ currentUser, onLogout, onOpenAuth, currentView,
         <button
           id="nav-burger-btn"
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-on-surface hover:text-primary transition-colors flex items-center"
+          aria-expanded={isOpen}
+          aria-label={isOpen ? "إغلاق القائمة" : "فتح القائمة"}
+          className="md:hidden min-w-[44px] min-h-[44px] text-on-surface hover:text-primary transition-colors duration-200 flex items-center justify-center cursor-pointer rounded-xl"
         >
           <span className="material-symbols-outlined text-3xl">
             {isOpen ? "close" : "menu"}
@@ -125,7 +128,7 @@ export default function Navbar({ currentUser, onLogout, onOpenAuth, currentView,
 
       {/* Mobile Drawer */}
       {isOpen && (
-        <div className="md:hidden bg-background/95 border-b border-white/10 px-6 py-4 flex flex-col gap-4 animate-fade-in">
+        <div className="md:hidden bg-background/95 border-t border-white/10 rounded-b-2xl px-4 sm:px-6 py-4 flex flex-col gap-2 animate-fade-in">
           {navLinks.map((link) => {
             if (link.href === "#listen") {
               return (
@@ -195,7 +198,7 @@ export default function Navbar({ currentUser, onLogout, onOpenAuth, currentView,
               id="nav-download-btn-mobile"
               href="#download"
               onClick={(e) => handleScroll(e, "#download")}
-              className="w-full py-2.5 text-center rounded-full bg-primary-container text-on-primary-container font-bold hover:opacity-90 active:scale-95 transition-transform font-label-sm text-label-sm"
+              className="w-full py-2.5 text-center rounded-full bg-primary-container text-on-primary-container font-bold hover:brightness-110 active:brightness-95 transition-colors duration-200 font-label-sm text-label-sm cursor-pointer"
             >
               تحميل التطبيق
             </a>
